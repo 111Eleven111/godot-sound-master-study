@@ -25,6 +25,7 @@ func _send_coin_sfx_osc() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
+	print("test")
 	if body.is_in_group("Player"):
 		var player := body as Player
 		if player == null:

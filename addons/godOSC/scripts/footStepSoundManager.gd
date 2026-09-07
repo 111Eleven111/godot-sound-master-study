@@ -3,7 +3,7 @@ extends Node
 var tilemaps: Array[TileMapLayer] = []
 var footstep_player: AudioStreamPlayer
 var osc_client: OSCClient
-var debug_tile_checks := true
+var debug_tile_checks := false
 @export_range(1, 30) var cooldown_frames := 5
 var cooldown_counter := 0
 const OSC_PORT := 4848

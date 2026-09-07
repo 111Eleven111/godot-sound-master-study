@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 # debug
-var debug_osc_msg = true
+var debug_osc_msg = false
 
 
 # Player node references
@@ -155,7 +155,7 @@ func _ready():
 	coyote_timer.wait_time = coyote_timer_value
 	jump_buffer_timer.wait_time = jump_buffer_timer_value
 	start_position = global_position
-	victory_height = -2510
+	victory_height = -1973
 	_update_timer_display()
 	_set_prompt_ui()
 	reset = true
@@ -701,6 +701,7 @@ func jump_cut():
 func _on_landed(landing_velocity: Vector2, surface_tag: String):
 
 	_check_tile_type_on_land()
+	_log_platform_landing()
 	_log_telemetry_event("landed", {"action": "land", "info": "surface_%s_impact_%s" % [surface_tag, str(clamp(abs(landing_velocity.y) / max_fall_speed, 0.0, 10.0))]})
 
 	# Calculate impact energy from vertical velocity (0.0 to 1.0)
@@ -742,6 +743,38 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 
 	# send player height to MAX
 	$"OSCClient - OUT".send_message("/player/height", [global_position.y])
+
+func _log_platform_landing() -> void:
+	var collision := get_last_slide_collision()
+	if not collision:
+		return
+
+	var tile_map := collision.get_collider() as TileMapLayer
+	if not tile_map:
+		return
+
+	# Move one pixel into the colliding tile before converting to map coordinates.
+	# This avoids classifying a contact on a tile boundary as the empty cell above it.
+	var tile_world_position := collision.get_position() - collision.get_normal()
+	var tile_coordinates := tile_map.local_to_map(tile_map.to_local(tile_world_position))
+	var source_id := tile_map.get_cell_source_id(tile_coordinates)
+	var atlas_coordinates := tile_map.get_cell_atlas_coords(tile_coordinates)
+	var scene_name := _current_scene_path().get_file().get_basename()
+	var platform_id := "%s/%s/%d_%d" % [scene_name, tile_map.name, tile_coordinates.x, tile_coordinates.y]
+	var info := "platform_%s_layer_%s_tile_%d_%d_source_%d_atlas_%d_%d" % [
+		platform_id,
+		tile_map.name,
+		tile_coordinates.x,
+		tile_coordinates.y,
+		source_id,
+		atlas_coordinates.x,
+		atlas_coordinates.y
+	]
+
+	_log_telemetry_event("platform_landed", {
+		"action": "land_on_platform",
+		"info": info
+	})
 		
 func _sdt_wind():
 	# send player velocity to MAX/SDT for wind synthesis
