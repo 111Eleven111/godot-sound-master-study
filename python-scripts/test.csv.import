@@ -6,10 +6,10 @@ uid="uid://bkoaesdipjepx"
 
 [deps]
 
-files=["res://python-scripts/test.scene.translation", "res://python-scripts/test.event.translation", "res://python-scripts/test.x.translation", "res://python-scripts/test.y.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.action.translation", "res://python-scripts/test.info.translation"]
+files=["res://python-scripts/test.event.translation", "res://python-scripts/test.x.translation", "res://python-scripts/test.y.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.action.translation", "res://python-scripts/test.info.translation"]
 
 source_file="res://python-scripts/test.csv"
-dest_files=["res://python-scripts/test.scene.translation", "res://python-scripts/test.event.translation", "res://python-scripts/test.x.translation", "res://python-scripts/test.y.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.action.translation", "res://python-scripts/test.info.translation"]
+dest_files=["res://python-scripts/test.event.translation", "res://python-scripts/test.x.translation", "res://python-scripts/test.y.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.velocity.translation", "res://python-scripts/test.action.translation", "res://python-scripts/test.info.translation"]
 
 [params]
 

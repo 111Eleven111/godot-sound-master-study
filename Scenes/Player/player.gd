@@ -356,8 +356,9 @@ func _physics_process(delta):
 		# print("test: ", global_position[1], "    " ,prev_jump_height)
 
 		if global_position[1] > prev_jump_height and not peak_reached:
-			print("Peak reached")
+			# print("Peak reached")
 			peak_reached = true
+			_log_telemetry_event("jump_peak_reached", {"action": "jump_peak", "info": "x_%s_y_%s" % [position.x, position.y]})
 			
 		prev_jump_height = global_position[1]
 
@@ -784,13 +785,13 @@ func _check_tile_id_on_land():
 	if last_landed_tiles.size() >= 3:
 		var x = 1
 		while x < last_landed_tiles.size():
-			if last_landed_tiles[x][1][0] < last_landed_tiles[x - 1][1][0]:
+			if last_landed_tiles[x][1][0] <= last_landed_tiles[x - 1][1][0]:
 				repeat_right = false
-			if last_landed_tiles[x][1][0] > last_landed_tiles[x - 1][1][0]:
+			if last_landed_tiles[x][1][0] >= last_landed_tiles[x - 1][1][0]:
 				repeat_left = false
 				
 			x += 1 
-			# TODO check if any are matching, then sett false
+			
 			
 		if repeat_left:
 			$"OSCClient - OUT".send_message("/player/repeat_left", [1])

@@ -101,3 +101,5 @@
 .godot/editor/editor_layout.cfg
 *.cfg
 *.cfg
+/data
+/.godot/imported
