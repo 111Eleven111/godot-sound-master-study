@@ -9,6 +9,7 @@ var debug_osc_msg = false
 @onready var coyote_timer = $CoyoteTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
 @onready var jump_trojectory_line = $JumpTrojectoryLine
+
 # UI node references
 @onready var timer_label = $UILayer/TimerLabel
 @onready var status_label = $UILayer/StatusLabel
@@ -56,6 +57,9 @@ var score := 0
 var is_jump_held := false
 var jump_hold_boost := 0.0
 var max_jump_hold_boost := 200.0  # Additional velocity boost from holding
+
+var prev_jump_height := 0.0
+var peak_reached := false
 
 # audio toggles
 var master_bus_muted := false
@@ -211,7 +215,7 @@ func _start_telemetry_session() -> void:
 		return
 
 	telemetry_session_active = true
-	_write_telemetry_row(["timestamp_seconds", "scene_path", "event", "x", "y", "velocity_x", "velocity_y", "action", "info"])
+	_write_telemetry_row(["timestamp_seconds", "event", "x", "y", "velocity_x", "velocity_y", "action", "info"])
 	_log_telemetry_event("session_start", {"scene": _current_scene_path()})
 	print("Telemetry started: ", telemetry_file_path)
 
@@ -255,7 +259,6 @@ func _log_telemetry_event(event_name: String, data: Dictionary = {}) -> void:
 	var mac_time := float(Time.get_ticks_msec()) / 1000.0
 	var row := [
 		str(mac_time),
-		_current_scene_path(),
 		event_name,
 		str(position.x),
 		str(position.y),
@@ -326,8 +329,19 @@ func _set_sprite_direction(direction: int) -> void:
 
 # Physics process handles player movement, jumping, and audio updates
 func _physics_process(delta):
+	
+	# while airborne:
 	if not is_on_floor():
 		velocity.y += _get_gravity(velocity) * delta
+		
+		# fast fall
+		# if Input.is_action_just_pressed("Move_Down"):
+			
+		#	if peak_reached:
+		#		velocity.y = velocity.y * 3
+		#	else:
+		#		velocity.y = velocity.y * -3
+		
 		_get_movement(air_resistance, air_acceleration, delta)
 
 		# SDT wind procsesing
@@ -336,6 +350,16 @@ func _physics_process(delta):
 		# check if player collides mid air and send a bang to MAX/SDT for folio synthesis
 		if _is_on_wall():
 			$"OSCClient - OUT".send_message("/player/collided", [1])
+
+		# check if we have reached peak of jump
+		# print(global_position[1])
+		# print("test: ", global_position[1], "    " ,prev_jump_height)
+
+		if global_position[1] > prev_jump_height and not peak_reached:
+			print("Peak reached")
+			peak_reached = true
+			
+		prev_jump_height = global_position[1]
 
 	else:
 		if coyote_timer.is_stopped():
@@ -659,8 +683,13 @@ func jump():
 			wind_sfx.volume_db = maxf(wind_sfx.volume_db, -16.0)
 		
 		_log_telemetry_event("jump_executed", {"action": "jump", "info": "x_%s_y_%s" % [position.x, position.y]})
-		print("Player Jumped at position: ", position)
+		
+		if debug_osc_msg:
+			print("Player Jumped at position: ", position)
 		$"OSCClient - OUT".send_message("/player/jump", [1])
+		peak_reached = false
+
+
 		
 		# play jump sfx static sample
 		if not _is_godot_muted_in_current_scene() and jump_sfx_1:
@@ -703,6 +732,7 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 	_check_tile_type_on_land()
 	_log_platform_landing()
 	_log_telemetry_event("landed", {"action": "land", "info": "surface_%s_impact_%s" % [surface_tag, str(clamp(abs(landing_velocity.y) / max_fall_speed, 0.0, 10.0))]})
+	
 
 	# Calculate impact energy from vertical velocity (0.0 to 1.0)
 	var impact_energy = clamp(abs(landing_velocity.y) / max_fall_speed, 0.0, 10.0)
@@ -723,7 +753,9 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 
 	# also send tile type
 	$"OSCClient - OUT".send_message("/player/tile_type", [surface_tag])
-
+	
+	# send player height to MAX
+	$"OSCClient - OUT".send_message("/player/height", [global_position.y])
 	
 	# play landing sfx static sample
 	if not _is_godot_muted_in_current_scene() and land_sfx_1_vari:
@@ -740,9 +772,37 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 			# adjust volume based on impact energy (0.0 to 1.0)
 			land_sfx_1_vari.volume_db = lerp(-5.0, -2.0, impact_energy)
 		land_sfx_1_vari.play()
+		
+var last_landed_tiles = []
+var repeat_left = true
+var repeat_right = true
 
-	# send player height to MAX
-	$"OSCClient - OUT".send_message("/player/height", [global_position.y])
+
+func _check_tile_id_on_land():
+	print(last_landed_tiles)
+	
+	if last_landed_tiles.size() >= 3:
+		var x = 1
+		while x < last_landed_tiles.size():
+			if last_landed_tiles[x][1][0] < last_landed_tiles[x - 1][1][0]:
+				repeat_right = false
+			if last_landed_tiles[x][1][0] > last_landed_tiles[x - 1][1][0]:
+				repeat_left = false
+				
+			x += 1 
+			# TODO check if any are matching, then sett false
+			
+		if repeat_left:
+			$"OSCClient - OUT".send_message("/player/repeat_left", [1])
+			
+		if repeat_right:
+			$"OSCClient - OUT".send_message("/player/repeat_right", [1])
+			
+		# reset
+		last_landed_tiles = []
+		repeat_left = true
+		repeat_right = true
+		
 
 func _log_platform_landing() -> void:
 	var collision := get_last_slide_collision()
@@ -857,7 +917,8 @@ func _check_tile_type_on_land():
 
 	if debug_osc_msg:
 		print("OSC Sent /player/landed/" + tile_type)
-
+		
+		
 
 # function to check what tile type the player is walking on
 # send a bang when starting walk on a tile, abd send a bang when leaving/stopping walking a tile

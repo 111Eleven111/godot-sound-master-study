@@ -1,0 +1,25 @@
+timestamp_seconds,scene_path,event,x,y,velocity_x,velocity_y,action,info
+2.187,res://Scenes/Main/scene-1.tscn,session_start,392.0,624.0,0.0,0.0,,
+2.291,res://Scenes/Main/scene-1.tscn,platform_landed,392.0,638.988403320312,0.0,0.0,land_on_platform,platform_scene-1/Tile Map/21_36_layer_Tile Map_tile_21_36_source_1_atlas_2_0
+2.291,res://Scenes/Main/scene-1.tscn,landed,392.0,638.988403320312,0.0,0.0,land,surface_wood_impact_0.51851849365234
+3.225,res://Scenes/Main/scene-1.tscn,move_left_pressed,392.0,638.988403320312,-33.3333320617676,0.0,Move_Left,pressed
+3.377,res://Scenes/Main/scene-1.tscn,jump_input_pressed,371.666687011719,638.988403320312,-180.0,0.0,Jump,pressed
+3.377,res://Scenes/Main/scene-1.tscn,jump_executed,371.666687011719,638.988403320312,-180.0,-500.0,jump,x_371.666687011719_y_638.988403320312
+3.425,res://Scenes/Main/scene-1.tscn,move_right_pressed,366.815490722656,614.97119140625,1.66666889190674,-437.833282470703,Move_Right,pressed
+3.76,res://Scenes/Main/scene-1.tscn,jump_input_released,406.259857177734,532.98974609375,13.3333311080933,-36.1665573120117,Jump,released
+4.01,res://Scenes/Main/scene-1.tscn,platform_landed,406.482086181641,584.990478515625,0.0,0.0,land_on_platform,platform_scene-1/Tile Map/22_33_layer_Tile Map_tile_22_33_source_1_atlas_1_0
+4.01,res://Scenes/Main/scene-1.tscn,landed,406.482086181641,584.990478515625,0.0,0.0,land,surface_wood_impact_0.97396331787109
+4.064,res://Scenes/Main/scene-1.tscn,move_right_pressed,406.482086181641,584.990478515625,33.3333320617676,0.0,Move_Right,pressed
+4.064,res://Scenes/Main/scene-1.tscn,jump_input_pressed,406.482086181641,584.990478515625,33.3333320617676,0.0,Jump,pressed
+4.064,res://Scenes/Main/scene-1.tscn,jump_executed,406.482086181641,584.990478515625,33.3333320617676,-500.0,jump,x_406.482086181641_y_584.990478515625
+4.325,res://Scenes/Main/scene-1.tscn,jump_input_released,441.291351318359,493.068542480469,180.0,37.037036895752,Jump,released
+4.508,res://Scenes/Main/scene-1.tscn,coin_collected,474.292633056641,533.809509277344,180.0,407.407440185547,collect_coin,coin_coin_score_1
+4.534,res://Scenes/Main/scene-1.tscn,platform_landed,478.903747558594,548.933715820312,96.6666641235352,0.0,land_on_platform,platform_scene-1/Tile Map/26_31_layer_Tile Map_tile_26_31_source_1_atlas_2_0
+4.534,res://Scenes/Main/scene-1.tscn,landed,478.903747558594,548.933715820312,96.6666641235352,0.0,land,surface_wood_impact_0.96296307373047
+13.251,res://Scenes/Main/scene-1.tscn,move_left_pressed,479.1259765625,548.933715820312,-33.3333320617676,0.0,Move_Left,pressed
+13.634,res://Scenes/Main/scene-1.tscn,platform_landed,413.78173828125,584.93310546875,-180.0,0.0,land_on_platform,platform_scene-1/Tile Map/22_33_layer_Tile Map_tile_22_33_source_1_atlas_1_0
+13.634,res://Scenes/Main/scene-1.tscn,landed,413.78173828125,584.93310546875,-180.0,0.0,land,surface_wood_impact_0.81481488037109
+14.084,res://Scenes/Main/scene-1.tscn,move_left_pressed,408.948394775391,584.93310546875,-33.3333320617676,0.0,Move_Left,pressed
+14.419,res://Scenes/Main/scene-1.tscn,platform_landed,365.759552001953,638.988525390625,0.0,0.0,land_on_platform,platform_scene-1/Tile Map/20_36_layer_Tile Map_tile_20_36_source_1_atlas_2_0
+14.419,res://Scenes/Main/scene-1.tscn,landed,365.759552001953,638.988525390625,0.0,0.0,land,surface_wood_impact_0.96296307373047
+16.191,res://Scenes/Main/scene-1.tscn,session_end,365.759552001953,638.988525390625,0.0,0.0,,
