@@ -775,23 +775,38 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 		land_sfx_1_vari.play()
 		
 var last_landed_tiles = []
-var repeat_left = true
+var repeat_left = true # maybe rename to repeat -> pathing?
 var repeat_right = true
 
 
 func _check_tile_id_on_land():
-	print(last_landed_tiles)
+	# musicking 10, platform pathing
+	# print(last_landed_tiles)
 	
 	if last_landed_tiles.size() >= 3:
+		
 		var x = 1
 		while x < last_landed_tiles.size():
+			
 			if last_landed_tiles[x][1][0] <= last_landed_tiles[x - 1][1][0]:
 				repeat_right = false
 			if last_landed_tiles[x][1][0] >= last_landed_tiles[x - 1][1][0]:
 				repeat_left = false
 				
+			if x >= 2:
+				#print(last_landed_tiles)
+				if last_landed_tiles[2][1][0] < last_landed_tiles[1][1][0] and last_landed_tiles[0][1][0] < last_landed_tiles[1][1][0]:
+					$"OSCClient - OUT".send_message("/player/repeat_right_right_left", [1])
+					print("right right left")					
+				if last_landed_tiles[2][1][0] > last_landed_tiles[1][1][0] and last_landed_tiles[0][1][0] > last_landed_tiles[1][1][0]:
+					$"OSCClient - OUT".send_message("/player/repeat_left_left_right", [1])
+					print("left left right")
+				
+				
 			x += 1 
 			
+			if not repeat_left and not repeat_right :
+				break
 			
 		if repeat_left:
 			$"OSCClient - OUT".send_message("/player/repeat_left", [1])

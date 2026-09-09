@@ -103,3 +103,4 @@
 *.cfg
 /data
 /.godot/imported
+/.godot/editor
