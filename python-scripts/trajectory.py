@@ -18,16 +18,20 @@ def plot_arch(xdata_param, ydata_param):
 
     if len(xdata) != len(ydata):
         raise ValueError("xdata and ydata must have the same length")
-    if len(xdata) < 3:
-        raise ValueError("At least three points are needed for a quadratic spline")
 
-    # Use point order as the independent variable so duplicate x or y values are valid.
-    t = np.arange(len(xdata), dtype=float)
-    t_smooth = np.linspace(t[0], t[-1], 100)
-    x_smooth = make_interp_spline(t, xdata, k=2)(t_smooth)
-    y_smooth = make_interp_spline(t, ydata, k=2)(t_smooth)
+    # Plot each jump separately so one jump never connects to the next one.
+    for start in range(0, len(xdata) - 2, 3):
+        jump_x = xdata[start:start + 3]
+        jump_y = ydata[start:start + 3]
 
-    ax.plot(x_smooth, y_smooth)
+        # Use point order as the independent variable so duplicate x or y values are valid.
+        t = np.arange(3, dtype=float)
+        t_smooth = np.linspace(t[0], t[-1], 100)
+        x_smooth = make_interp_spline(t, jump_x, k=2)(t_smooth)
+        y_smooth = make_interp_spline(t, jump_y, k=2)(t_smooth)
+
+        ax.plot(x_smooth, y_smooth)
+
     # ax.scatter(xdata, ydata)
     ax.invert_yaxis()
     plt.show()              # Display the figure
