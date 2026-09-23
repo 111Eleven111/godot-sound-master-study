@@ -104,3 +104,5 @@
 /data
 /.godot/imported
 /.godot/editor
+/.godot/editor
+.godot/uid_cache.bin

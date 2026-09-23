@@ -5,7 +5,7 @@ from matplotlib.widgets import Slider
 import numpy as np
 from scipy.interpolate import make_interp_spline
 
-TRAJECTORY_EVENTS = {"jump_executed", "jump_peak_reached", "landed"}
+TRAJECTORY_EVENTS = ["jump_executed", "jump_peak_reached", "landed"]
 test = False
 
 def plot_arch(xdata_param, ydata_param, time_param):
@@ -68,7 +68,7 @@ def plot_arch(xdata_param, ydata_param, time_param):
     
 
 
-def read_jump_points(csv) -> list:
+def read_points(csv, events) -> list:
     with open(csv, "r") as file:
         header = file.readline()
         # print(header) # timestamp_seconds,event,x,y,velocity_x,velocity_y,action,info
@@ -78,10 +78,9 @@ def read_jump_points(csv) -> list:
 
         for line in lines:
             entry = line.split(",")
-            if entry[1] in TRAJECTORY_EVENTS:
+            if entry[1] in events:
                 data.append(entry)
 
-        data = _filter_jumps(data)
     return data
     
 def _filter_jumps(jumps: list) -> list:
@@ -123,7 +122,8 @@ def _get_axis_points(jump_points_param, index) -> list:
     return axis_points
 
 def main() -> None:
-    jump_points = read_jump_points("test.csv")
+    jump_points = read_points("test.csv", TRAJECTORY_EVENTS)
+    jump_points = _filter_jumps(jump_points)
     xdata = _get_axis_points(jump_points, 2)
     ydata = _get_axis_points(jump_points, 3)
     time_data = _get_axis_points(jump_points, 0)

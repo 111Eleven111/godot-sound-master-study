@@ -441,6 +441,9 @@ func _physics_process(delta):
 		_on_landed(pre_landing_velocity, current_surface_tag)
 	
 	was_on_floor = is_on_floor()
+	
+	# send x position
+	$"OSCClient - OUT".send_message("/player/position", [position.x])
 
 
 func _unhandled_input(event):
@@ -510,6 +513,7 @@ func _on_victory() -> void:
 	print("Victory! Final time: %.2f seconds" % elapsed_time)
 	_update_timer_display()
 	$"OSCClient - OUT".send_message("/player/victory", [elapsed_time])
+	_log_telemetry_event("top/checkpoint reached", {"action": "top/checkpoint", "info": "coins collected: %s" % score})
 
 
 # Reset player position and timer to initial state
@@ -775,50 +779,33 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 		land_sfx_1_vari.play()
 		
 var last_landed_tiles = []
-var repeat_left = true # maybe rename to repeat -> pathing?
-var repeat_right = true
 
 
 func _check_tile_id_on_land():
 	# musicking 10, platform pathing
-	# print(last_landed_tiles)
-	
-	if last_landed_tiles.size() >= 3:
-		
-		var x = 1
-		while x < last_landed_tiles.size():
-			
-			if last_landed_tiles[x][1][0] <= last_landed_tiles[x - 1][1][0]:
-				repeat_right = false
-			if last_landed_tiles[x][1][0] >= last_landed_tiles[x - 1][1][0]:
-				repeat_left = false
-				
-			if x >= 2:
-				#print(last_landed_tiles)
-				if last_landed_tiles[2][1][0] < last_landed_tiles[1][1][0] and last_landed_tiles[0][1][0] < last_landed_tiles[1][1][0]:
-					$"OSCClient - OUT".send_message("/player/repeat_right_right_left", [1])
-					print("right right left")					
-				if last_landed_tiles[2][1][0] > last_landed_tiles[1][1][0] and last_landed_tiles[0][1][0] > last_landed_tiles[1][1][0]:
-					$"OSCClient - OUT".send_message("/player/repeat_left_left_right", [1])
-					print("left left right")
-				
-				
-			x += 1 
-			
-			if not repeat_left and not repeat_right :
-				break
-			
-		if repeat_left:
-			$"OSCClient - OUT".send_message("/player/repeat_left", [1])
-			
-		if repeat_right:
-			$"OSCClient - OUT".send_message("/player/repeat_right", [1])
-			
-		# reset
-		last_landed_tiles = []
-		repeat_left = true
-		repeat_right = true
-		
+	if last_landed_tiles.size() > 4:
+		last_landed_tiles.pop_front()
+
+	if last_landed_tiles.size() < 4:
+		return
+
+	var first_x: float = last_landed_tiles[0][1].x
+	var second_x: float = last_landed_tiles[1][1].x
+	var third_x: float = last_landed_tiles[2][1].x
+	var fourth_x: float = last_landed_tiles[3][1].x
+
+	if first_x > second_x and second_x > third_x and third_x > fourth_x:
+		$"OSCClient - OUT".send_message("/player/repeat_left", [1])
+		last_landed_tiles.clear()
+	elif first_x < second_x and second_x < third_x and third_x < fourth_x:
+		$"OSCClient - OUT".send_message("/player/repeat_right", [1])
+		last_landed_tiles.clear()
+	elif fourth_x < third_x and third_x < second_x and first_x < second_x:
+		$"OSCClient - OUT".send_message("/player/repeat_right_right_left", [1])
+		last_landed_tiles.clear()
+	elif fourth_x > third_x and third_x > second_x and first_x > second_x:
+		$"OSCClient - OUT".send_message("/player/repeat_left_left_right", [1])
+		last_landed_tiles.clear()
 
 func _log_platform_landing() -> void:
 	var collision := get_last_slide_collision()
