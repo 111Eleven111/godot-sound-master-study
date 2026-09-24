@@ -42,6 +42,8 @@ var was_on_floor := false
 var reset := false
 var walking_frame_count := 0
 var walking_tile_type := ""
+var d_key_held := false
+var a_key_held := false
 
 # Timer tracking
 var elapsed_time := 0.0
@@ -378,6 +380,14 @@ func _physics_process(delta):
 		_log_telemetry_event("move_left_pressed", {"action": "Move_Left", "info": "pressed"})
 	if Input.is_action_just_pressed("Move_Right"):
 		_log_telemetry_event("move_right_pressed", {"action": "Move_Right", "info": "pressed"})
+	var d_key_pressed := Input.is_key_pressed(KEY_D)
+	if d_key_pressed != d_key_held:
+		$"OSCClient - OUT".send_message("/player/holdkey/d", [int(d_key_pressed)])
+		d_key_held = d_key_pressed
+	var a_key_pressed := Input.is_key_pressed(KEY_A)
+	if a_key_pressed != a_key_held:
+		$"OSCClient - OUT".send_message("/player/holdkey/a", [int(a_key_pressed)])
+		a_key_held = a_key_pressed
 	if Input.is_action_just_pressed("Jump"):
 		_log_telemetry_event("jump_input_pressed", {"action": "Jump", "info": "pressed"})
 		jump()
