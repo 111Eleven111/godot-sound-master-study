@@ -42,6 +42,7 @@ var was_on_floor := false
 var reset := false
 var walking_frame_count := 0
 var walking_tile_type := ""
+var last_known_tile_type := "snow"
 var d_key_held := false
 var a_key_held := false
 
@@ -49,8 +50,15 @@ var a_key_held := false
 var elapsed_time := 0.0
 var is_timer_running := false
 var start_position := Vector2.ZERO
-var victory_height := 10000
+var victory_height := 0
 var victory_reached := false
+var victory_transition_elapsed := 0.0
+var menu_transition_started := false
+
+# Time constraints
+const RUN_TIME_LIMIT := 180.0
+const VICTORY_MENU_DELAY := 10.0
+const MENU_SCENE_PATH := "res://Scenes/Main/menu.tscn"
 
 # Score tracking
 var score := 0
@@ -132,35 +140,22 @@ var telemetry_session_id := ""
 @export_group("Scene Rules")
 @export var jump_enabled_scenes: PackedStringArray = PackedStringArray([
 	"res://Scenes/Main/main.tscn",
-	"res://Scenes/Main/scene-1.tscn",
-	"res://Scenes/Main/scene-2.tscn",
-	"res://Scenes/Main/scene-3.tscn",
-	"res://Scenes/Main/scene-4.tscn",
-	"res://Scenes/Main/scene-5.tscn",
-	"res://Scenes/Main/scene-6.tscn",
-	"res://Scenes/Main/scene-7.tscn"
+	"res://Scenes/Main/scene-1.tscn"
 ])
 ## Scenes where Godot AudioStreamPlayers are muted (OSC/MAX output is unchanged)
 @export var godot_muted_scenes: PackedStringArray = PackedStringArray([
-	"res://Scenes/Main/scene-1.tscn",
-	"res://Scenes/Main/scene-2.tscn",
-	"res://Scenes/Main/scene-3.tscn",
-	"res://Scenes/Main/scene-4.tscn"
+	"res://Scenes/Main/scene-1.tscn"
 ])
 @export var scene_shortcuts: PackedStringArray = PackedStringArray([
-	"res://Scenes/Main/scene-1.tscn",
-	"res://Scenes/Main/scene-2.tscn",
-	"res://Scenes/Main/scene-3.tscn",
-	"res://Scenes/Main/scene-4.tscn",
-	"res://Scenes/Main/scene-5.tscn",
-	"res://Scenes/Main/scene-6.tscn",
-	"res://Scenes/Main/scene-7.tscn"
+	"res://Scenes/Main/scene-1.tscn"
 ])
 
 func _ready():
 	coyote_timer.wait_time = coyote_timer_value
 	jump_buffer_timer.wait_time = jump_buffer_timer_value
 	start_position = global_position
+	print(global_position)
+	# -1973 snow layer hieght
 	victory_height = -1973
 	_update_timer_display()
 	_set_prompt_ui()
@@ -328,6 +323,9 @@ func _set_sprite_direction(direction: int) -> void:
 	if direction < 0.0:
 		$AnimatedSprite2D.flip_h = false
 
+func _process(_delta: float) -> void:
+	pass
+	
 
 # Physics process handles player movement, jumping, and audio updates
 func _physics_process(delta):
@@ -418,6 +416,14 @@ func _physics_process(delta):
 		# Check if player reached victory height
 		if position.y <= victory_height:
 			_on_victory()
+
+	if victory_reached:
+		victory_transition_elapsed += delta
+		if victory_transition_elapsed >= VICTORY_MENU_DELAY:
+			_switch_to_menu("victory")
+
+	if is_timer_running and elapsed_time >= RUN_TIME_LIMIT:
+		_handle_time_limit()
 	
 	if is_on_floor() and absf(velocity.x) > 0.1:
 		$AnimatedSprite2D.play("walk")
@@ -459,10 +465,22 @@ func _physics_process(delta):
 func _unhandled_input(event):
 	# switch scene
 	if event is InputEventKey and event.pressed and not event.echo:
+		match event.keycode:
+			KEY_5:
+				$"OSCClient - OUT".send_message("/player/5", [1])
+			KEY_6:
+				$"OSCClient - OUT".send_message("/player/6", [1])
+			KEY_7:
+				$"OSCClient - OUT".send_message("/player/7", [1])
+			KEY_8:
+				$"OSCClient - OUT".send_message("/player/8", [1])
+
 		var scene_index := _get_scene_shortcut_index(event.keycode)
 		if scene_index != -1:
 			if scene_index == 9:  # 0 key - reset player position and timer
 				_reset_player()
+			elif event.keycode == KEY_9:
+				_switch_to_menu("scene_shortcut")
 			else:
 				_switch_to_scene(scene_index)
 				
@@ -480,8 +498,11 @@ func _unhandled_input(event):
 
 
 func _get_scene_shortcut_index(keycode: Key) -> int:
-	if keycode >= KEY_1 and keycode <= KEY_9:
+	if keycode == KEY_1:
 		return int(keycode - KEY_1)
+
+	if keycode == KEY_9:
+		return 8
 
 	if keycode == KEY_0:
 		return 9
@@ -519,11 +540,63 @@ func _update_timer_display() -> void:
 func _on_victory() -> void:
 	is_timer_running = false
 	victory_reached = true
+	victory_transition_elapsed = 0.0
 	_set_victory_ui()
 	print("Victory! Final time: %.2f seconds" % elapsed_time)
 	_update_timer_display()
 	$"OSCClient - OUT".send_message("/player/victory", [elapsed_time])
 	_log_telemetry_event("top/checkpoint reached", {"action": "top/checkpoint", "info": "coins collected: %s" % score})
+	
+	# wait for 2 seconds before starting to reduce the coin counter
+	await get_tree().create_timer(2.0).timeout
+	var collision := get_last_slide_collision()
+	var tile_type := last_known_tile_type
+	
+
+	while score > 0:
+		score -= 1
+		coin_counter_label.text = str(score)
+		await get_tree().create_timer(0.2).timeout
+		#$"OSCClient - OUT".send_message("/player/coin_count", [score])
+
+		# check if player is standing on
+		collision = get_last_slide_collision()
+		if collision != null:
+			var new_tile_type = FootStepSoundManager.get_tile_type(collision.get_position())
+			if new_tile_type != null and not String(new_tile_type).is_empty():
+				tile_type = new_tile_type
+				last_known_tile_type = tile_type
+		print("Player standing on tile: ", tile_type)
+
+		if tile_type == "mushroom":
+			$"OSCClient - OUT".send_message("/player/standing_on/mushroom/coin_count", [score])
+		elif tile_type == "grass":
+			$"OSCClient - OUT".send_message("/player/standing_on/grass/coin_count", [score])
+		elif tile_type == "snow":
+			$"OSCClient - OUT".send_message("/player/standing_on/snow/coin_count", [score])
+
+	
+		
+	
+
+
+func _switch_to_menu(reason: String) -> void:
+	if menu_transition_started or _current_scene_path() == MENU_SCENE_PATH:
+		return
+
+	menu_transition_started = true
+	var previous_scene_path := _current_scene_path()
+	_log_telemetry_event("scene_transition", {"action": "switch", "info": "from_%s_to_%s" % [previous_scene_path, MENU_SCENE_PATH]})
+	if telemetry_session_active:
+		_stop_telemetry_session(reason)
+
+	get_tree().change_scene_to_file(MENU_SCENE_PATH)
+
+
+func _handle_time_limit() -> void:
+	is_timer_running = false
+	_log_telemetry_event("time_limit_reached", {"action": "time_limit", "info": "three_minutes"})
+	_switch_to_menu("time_limit")
 
 
 # Reset player position and timer to initial state
@@ -535,6 +608,8 @@ func _reset_player() -> void:
 	is_jump_held = false
 	jump_hold_boost = 0.0
 	victory_reached = false
+	victory_transition_elapsed = 0.0
+	menu_transition_started = false
 	_update_timer_display()
 	_set_prompt_ui()
 	reset = true
@@ -545,21 +620,22 @@ func _reset_player() -> void:
 
 func _set_prompt_ui() -> void:
 	status_label.visible = true
-	status_label.text = "Get to the top!"
+	status_label.text = "Get to the top!\na + d to move\nspacebar to jump "
 	score_label.visible = false
 	coin_counter_label.visible = false
+	timer_label.visible = false
 
 
 func _set_running_ui() -> void:
 	status_label.visible = false
 	score_label.visible = false
+	timer_label.visible = false
 	coin_counter_label.visible = true
 
 
 func _set_victory_ui() -> void:
 	status_label.visible = false
 	score_label.visible = true
-
 
 func _is_jump_enabled_in_current_scene() -> bool:
 	if jump_enabled_scenes.is_empty():
@@ -762,7 +838,8 @@ func _on_landed(landing_velocity: Vector2, surface_tag: String):
 	# - Horizontal velocity for directional folio cues
 	$"OSCClient - OUT".send_message("/sdt/direction", [sign(landing_velocity.x)])
 	
-	print("Player Landed - Impact Energy: %.2f" % impact_energy)
+	# print("Player Landed - Impact Energy: %.2f" % impact_energy)
+	# print(global_position)
 	$"OSCClient - OUT".send_message("/player/impact_energy", [impact_energy])
 	$"OSCClient - OUT".send_message("/player/landed", [1])
 
@@ -926,6 +1003,9 @@ func _check_tile_type_on_land():
 		return
 
 	var tile_type := FootStepSoundManager.get_tile_type(collision.get_position())
+	if tile_type == null or String(tile_type).is_empty():
+		return
+	last_known_tile_type = String(tile_type)
 	$"OSCClient - OUT".send_message("/player/landed/" + tile_type, [1])
 
 	if debug_osc_msg:
@@ -942,6 +1022,8 @@ func _walking_on_tile():
 	if is_walking:
 		var foot_position := global_position + Vector2(0, footstep_probe_down)
 		current_tile_type = FootStepSoundManager.get_tile_type(foot_position)
+		if current_tile_type != null and not String(current_tile_type).is_empty():
+			last_known_tile_type = String(current_tile_type)
 
 	if walking_tile_type != current_tile_type:
 		if not walking_tile_type.is_empty():
@@ -952,7 +1034,7 @@ func _walking_on_tile():
 		if not walking_tile_type.is_empty():
 			$"OSCClient - OUT".send_message("/player/running/" + walking_tile_type, [1])
 
-			print("TEST OSC Sent /player/running/" + walking_tile_type)
+			# print("TEST OSC Sent /player/running/" + walking_tile_type)
 
 # function to check if the player is colliding with anything
 func _is_on_wall() -> bool:

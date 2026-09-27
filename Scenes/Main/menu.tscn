@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://dckqwd4yhg6bo"]
+
+[ext_resource type="Theme" uid="uid://d1nmxlfohfh1w" path="res://ui/ui_theme.tres" id="1_at7h2"]
+[ext_resource type="PackedScene" uid="uid://rdm57vpuj2eb" path="res://ui/play_button.tscn" id="1_xlylt"]
+[ext_resource type="Script" uid="uid://dr7cy2ffeaayy" path="res://ui/play_button.gd" id="3_d8a7c"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_at7h2")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Title" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 84
+text = "Menu"
+fit_content = true
+autowrap_mode = 0
+
+[node name="PlayButton" parent="PanelContainer/VBoxContainer" instance=ExtResource("1_xlylt")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 50
+text = "Play"
+script = ExtResource("3_d8a7c")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/PlayButton" to="PanelContainer/VBoxContainer/PlayButton" method="_on_pressed"]

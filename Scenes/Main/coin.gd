@@ -31,7 +31,7 @@ func _on_body_entered(body: Node2D) -> void:
 		if player == null:
 			return
 
-		player.score += 1
+		player.score += 2
 		player.log_coin_collected(name, player.score)
 		self.queue_free()
 		print(player.score)
