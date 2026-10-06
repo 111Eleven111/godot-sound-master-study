@@ -373,6 +373,10 @@ func _physics_process(delta):
 	_update_wind_sfx(delta)
 	
 	_set_sprite_direction(sign(velocity.x))
+	if velocity.x < -0.1:
+		$"OSCClient - OUT".send_message("/player/moving_left", [1])
+	elif velocity.x > 0.1:
+		$"OSCClient - OUT".send_message("/player/moving_right", [1])
 	
 	if Input.is_action_just_pressed("Move_Left"):
 		_log_telemetry_event("move_left_pressed", {"action": "Move_Left", "info": "pressed"})
@@ -870,6 +874,33 @@ var last_landed_tiles = []
 
 func _check_tile_id_on_land():
 	# musicking 10, platform pathing
+	if last_landed_tiles.size() >= 3:
+		var previous_platform = last_landed_tiles[-2]
+		var current_platform = last_landed_tiles[-1]
+		var platform_before_previous = last_landed_tiles[-3]
+		var previous_x: float = previous_platform[1].x
+		var current_x: float = current_platform[1].x
+
+		# A jump in place followed by a directional jump is a single cue.
+		if platform_before_previous[0] == previous_platform[0] and current_platform[0] != previous_platform[0]:
+			if current_x < previous_x:
+				$"OSCClient - OUT".send_message("/player/left", [1])
+			elif current_x > previous_x:
+				$"OSCClient - OUT".send_message("/player/right", [1])
+			last_landed_tiles.clear()
+			return
+
+		# Two consecutive jumps in the same direction are a repeat cue.
+		var first_three_x: float = platform_before_previous[1].x
+		if first_three_x > previous_x and previous_x > current_x:
+			$"OSCClient - OUT".send_message("/player/repeat_left", [1])
+			last_landed_tiles.clear()
+			return
+		elif first_three_x < previous_x and previous_x < current_x:
+			$"OSCClient - OUT".send_message("/player/repeat_right", [1])
+			last_landed_tiles.clear()
+			return
+
 	if last_landed_tiles.size() > 4:
 		last_landed_tiles.pop_front()
 
