@@ -1,5 +1,5 @@
-Studie 1 order 
-BDAC
+Study 1 order: 
+B;D;A;C
 
 NOETS:
 

@@ -1,8 +1,5 @@
 Studie 4 order 
-B
-D
-A
-C
+B;D;A;C
 
 
 NOTES:

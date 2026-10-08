@@ -1,8 +1,5 @@
 Studie 7 order 
-A
-B
-D
-C
+A;B;D;C
 
 NOTES:
 

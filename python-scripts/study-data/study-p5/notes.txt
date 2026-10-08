@@ -1,8 +1,5 @@
 Studie 5 order 
-A
-D
-B
-C
+A;D;B;C
 
 
 NOTES:

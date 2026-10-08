@@ -1,10 +1,7 @@
 Studie 8 order 
 
 order:
-C
-D
-A
-B
+C;D;A;B
 
 
 NOTES:

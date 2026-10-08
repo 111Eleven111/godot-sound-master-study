@@ -1,5 +1,5 @@
 Studie 2 order 
-A B D C
+A;B;D;C
 
 NOTES:
 
