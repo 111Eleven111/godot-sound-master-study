@@ -1,5 +1,7 @@
 # imports
 
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 import numpy as np
@@ -8,7 +10,7 @@ from scipy.interpolate import make_interp_spline
 TRAJECTORY_EVENTS = ["jump_executed", "jump_peak_reached", "landed"]
 test = False
 
-def plot_arch(xdata_param, ydata_param, time_param):
+def plot_arch_time(xdata_param, ydata_param, time_param):
     # sources: 
     # https://sqlpey.com/python/how-to-adjust-y-axis-range-to-start-from-0-in-matplotlib/
     # https://www.geeksforgeeks.org/machine-learning/how-to-plot-a-smooth-curve-in-matplotlib/
@@ -65,8 +67,32 @@ def plot_arch(xdata_param, ydata_param, time_param):
 
     # ax.scatter(xdata, ydata)
     plt.show()              # Display the figure
-    
 
+def plot_arch(xdata_param, ydata_param, time_param, info=""):
+    """Plot every three-point jump without a time slider."""
+    xdata = np.asarray(xdata_param, dtype=float)
+    ydata = np.asarray(ydata_param, dtype=float)
+    time_data = np.asarray(time_param, dtype=float)
+
+    if not (len(xdata) == len(ydata) == len(time_data)):
+        raise ValueError("xdata, ydata, and time_param must have the same length")
+
+    figure, axis = plt.subplots()
+    axis.invert_yaxis()
+    for start in range(0, len(xdata) - 2, 3):
+        jump_x = xdata[start:start + 3]
+        jump_y = ydata[start:start + 3]
+        # Use point order as the independent variable so duplicate x or y values are valid.
+        t = np.arange(3, dtype=float)
+        t_smooth = np.linspace(t[0], t[-1], 100)
+        x_smooth = make_interp_spline(t, jump_x, k=2)(t_smooth)
+        y_smooth = make_interp_spline(t, jump_y, k=2)(t_smooth)
+        axis.plot(x_smooth, y_smooth)
+
+    axis.set_title("All jumps" + info)
+    axis.set_xlabel("X position")
+    axis.set_ylabel("Y position")
+    plt.show()
 
 def read_points(csv, events) -> list:
     with open(csv, "r") as file:
@@ -121,14 +147,154 @@ def _get_axis_points(jump_points_param, index) -> list:
 
     return axis_points
 
+def plot_arch_for_all_studies() -> None:
+    """Show each study's four scenario trajectories one study at a time."""
+    data_root = Path(__file__).parent / "study-data"
+    scenarios = ("A", "B", "C", "D")
+    all_xdata = []
+    all_ydata = []
+
+    for study_folder in sorted(data_root.glob("study-p*")):
+        if not study_folder.is_dir():
+            continue
+
+        notes_path = study_folder / "notes.txt"
+        session_order = []
+        with notes_path.open(encoding="utf-8") as notes_file:
+            for line in notes_file:
+                if ";" in line:
+                    session_order = [
+                        item.strip()
+                        for item in line.split(":", 1)[-1].split(";")
+                        if item.strip()
+                    ]
+                    break
+
+        session_files = sorted(study_folder.glob("*.csv"))
+        for scenario in scenarios:
+            session_index = session_order.index(scenario)
+            session_file = session_files[session_index]
+            jump_points = _filter_jumps(
+                read_points(session_file, TRAJECTORY_EVENTS)
+            )
+            all_xdata.extend(_get_axis_points(jump_points, 2))
+            all_ydata.extend(_get_axis_points(jump_points, 3))
+
+    if not all_xdata or not all_ydata:
+        raise ValueError("No complete jump data found in the study folders")
+
+    x_minimum = float(np.min(np.asarray(all_xdata, dtype=float)))
+    x_maximum = float(np.max(np.asarray(all_xdata, dtype=float)))
+    y_minimum = float(np.min(np.asarray(all_ydata, dtype=float)))
+    y_maximum = float(np.max(np.asarray(all_ydata, dtype=float)))
+    x_range = x_maximum - x_minimum
+    y_range = y_maximum - y_minimum
+    plot_range = max(x_range, y_range)
+    padding = plot_range * 0.05 or 1.0
+    x_midpoint = (x_minimum + x_maximum) / 2
+    y_midpoint = (y_minimum + y_maximum) / 2
+    x_limits = (
+        x_midpoint - plot_range / 2 - padding,
+        x_midpoint + plot_range / 2 + padding,
+    )
+    y_limits = (
+        y_midpoint + plot_range / 2 + padding,
+        y_midpoint - plot_range / 2 - padding,
+    )
+
+    for study_folder in sorted(data_root.glob("study-p*")):
+        if not study_folder.is_dir():
+            continue
+
+        figure, axes = plt.subplots(2, 2, figsize=(14, 10), squeeze=False)
+        axes_by_scenario = {
+            scenario: axes[index // 2][index % 2]
+            for index, scenario in enumerate(scenarios)
+        }
+        for axis in axes.flat:
+            axis.invert_yaxis()
+            axis.set_xlim(x_limits)
+            axis.set_ylim(y_limits)
+            axis.set_aspect("equal", adjustable="box")
+
+        notes_path = study_folder / "notes.txt"
+        session_order = []
+        with notes_path.open(encoding="utf-8") as notes_file:
+            for line in notes_file:
+                if ";" in line:
+                    session_order = [
+                        item.strip()
+                        for item in line.split(":", 1)[-1].split(";")
+                        if item.strip()
+                    ]
+                    break
+
+        session_files = sorted(study_folder.glob("*.csv"))
+        for scenario in scenarios:
+            if scenario not in session_order:
+                raise ValueError(
+                    f"Scenario {scenario!r} is not defined in {notes_path}"
+                )
+
+            session_index = session_order.index(scenario)
+            if session_index >= len(session_files):
+                raise ValueError(
+                    f"Scenario {scenario!r} has no matching CSV in {study_folder}"
+                )
+
+            session_file = session_files[session_index]
+            jump_points = _filter_jumps(
+                read_points(session_file, TRAJECTORY_EVENTS)
+            )
+            if not jump_points:
+                print(f"Skipping {session_file}: no complete jumps found")
+                continue
+
+            xdata = np.asarray(_get_axis_points(jump_points, 2), dtype=float)
+            ydata = np.asarray(_get_axis_points(jump_points, 3), dtype=float)
+            axis = axes_by_scenario[scenario]
+            for start in range(0, len(xdata) - 2, 3):
+                jump_x = xdata[start:start + 3]
+                jump_y = ydata[start:start + 3]
+                t = np.arange(3, dtype=float)
+                t_smooth = np.linspace(t[0], t[-1], 100)
+                x_smooth = make_interp_spline(t, jump_x, k=2)(t_smooth)
+                y_smooth = make_interp_spline(t, jump_y, k=2)(t_smooth)
+                axis.plot(x_smooth, y_smooth)
+
+            match scenario:
+                case 'A':
+                    axis.set_title(f"Scenario {scenario} minimal sound effects")
+
+                case 'B':
+                    axis.set_title(f"Scenario {scenario} ligth sonification")
+
+                case 'C':
+                    axis.set_title(f"Scenario {scenario} sonification & musicking")
+
+                case 'D':
+                    axis.set_title(f"Scenario {scenario} lots of sonification & musicking")
+            
+
+            
+            axis.set_xlabel("X position")
+            axis.set_ylabel("Y position")
+
+        figure.suptitle(f"Jump trajectories for {study_folder.name}")
+        figure.tight_layout()
+        plt.show()
+        plt.close(figure)
+
+
 def main() -> None:
-    jump_points = read_points("test.csv", TRAJECTORY_EVENTS)
+    jump_points = read_points("/Users/bagusandreaarvak/uioAndCode/master/repos/master-repo/godot-sound-master-study/python-scripts/study-data/study-p1/session_2026-09-29T12-02-56.csv", TRAJECTORY_EVENTS)
     jump_points = _filter_jumps(jump_points)
     xdata = _get_axis_points(jump_points, 2)
     ydata = _get_axis_points(jump_points, 3)
     time_data = _get_axis_points(jump_points, 0)
     
-    plot_arch(xdata, ydata, time_data)
+    # plot_arch(xdata, ydata, time_data)
+    plot_arch_for_all_studies()
 
 if __name__ == "__main__":
     main()
