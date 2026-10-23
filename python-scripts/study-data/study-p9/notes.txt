@@ -1,6 +1,4 @@
-Studie 9 order 
-
-order:
+Studie 9 order
 C;B;A;D
 
 

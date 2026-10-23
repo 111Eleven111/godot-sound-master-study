@@ -1,4 +1,4 @@
-Study 1 order: 
+Studie 1 order 
 B;D;A;C
 
 NOETS:

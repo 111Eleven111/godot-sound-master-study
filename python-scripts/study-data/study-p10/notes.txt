@@ -1,4 +1,4 @@
-Study 10 order:
+Studie 10 order:
 C;A;D;B
 
 

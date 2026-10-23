@@ -1,0 +1,12 @@
+res://addons/godOSC/demo/demo.tscn::8bb61e7f16a2ba45eec58f82ab557b2a::1773404754::res://.godot/exported/133200997/export-d89e640908b69dbec670c075284f438e-demo.scn
+res://Scenes/Main/low-accel-SDT-s1.tscn::5072dde62080814287d5ec1747ae688d::1776686056::res://.godot/exported/133200997/export-a39561ae18161e49f6569f7e2121d854-low-accel-SDT-s1.scn
+res://Scenes/Main/main.tscn::73df54fe843659d223ef60d6bec08720::1787591537::res://.godot/exported/133200997/export-0c6835a2b535eafd02a3b62c0a86d578-main.scn
+res://Scenes/Main/menu.tscn::96cf625f8a1e769e9b0a9baed7ef43db::1791979265::res://.godot/exported/133200997/export-2f370d205667911f08103d071f291be9-menu.scn
+res://Scenes/Main/scene-1.tscn::b046d170a442bc155a6c8b262c6dfd5e::1791979265::res://.godot/exported/133200997/export-6b01971f4e8158a146f1f3003332b4f1-scene-1.scn
+res://Scenes/Objects/moving_platform.tscn::2e4b97c18161689236763fcd3733c73c::1764007446::res://.godot/exported/133200997/export-ce557cfc498e6e22e649c2d5b2a85b9e-moving_platform.scn
+res://Scenes/Player/player.tscn::5efff74e4b1cbbb0f188327fe9a8c099::1788725235::res://.godot/exported/133200997/export-8e63b53a88b650cb9792f8d8b6d332bc-player.scn
+res://ui/new_color_palette.tres::cd731ab46409a73d44d85249a969d2d5::1790333554::res://.godot/exported/133200997/export-ed817dac397990f92a2b3c9e3e266e6b-new_color_palette.res
+res://ui/play_button.tscn::2a0b6f0852b5b4d6315d043663b068b1::1790278797::res://.godot/exported/133200997/export-4ef1a7c5df016fac9c2acfc58f5de28a-play_button.scn
+res://ui/ui_style_box_flat.tres::ed632fed9b01448320fa2e362bc828c1::1790333554::res://.godot/exported/133200997/export-3399273412b5a2e2d2b219a007189ab8-ui_style_box_flat.res
+res://ui/ui_theme.tres::92dfd5f7026372065ab2904061998d01::1790333554::res://.godot/exported/133200997/export-0ab2c6e7b119755c598423b446b1c4eb-ui_theme.res
+res://default_bus_layout.tres::f6d33b7e1d9264042b0c853bc3c795fd::1791979271::res://.godot/exported/133200997/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res

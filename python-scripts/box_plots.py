@@ -48,7 +48,7 @@ def read_all(sessions):
     study_nr = 1
     study_endfix = "./study-data/study-p" + str(study_nr) + "/"
 
-    while study_nr <= 10:
+    while study_nr <= 18:
         sessions = read_folder(study_endfix, sessions)
         study_nr += 1
         study_endfix = "./study-data/study-p" + str(study_nr) + "/"
