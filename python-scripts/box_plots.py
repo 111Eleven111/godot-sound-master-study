@@ -244,11 +244,11 @@ def main() -> None:
     'jump_input_pressed', 'session_start', 'event', 'time_limit_reached'}
     """
 
-    # for event in get_event_legend(sessions):
-    #     plot_event_occurrences(sessions, event)
-
     for event in get_event_legend(sessions):
-        plot_event_occurrences_counterbalance(sessions, event)
+        plot_event_occurrences(sessions, event)
+
+    # for event in get_event_legend(sessions):
+    #     plot_event_occurrences_counterbalance(sessions, event)
 
     # plot_event_occurrences(sessions, "sonification"
 
