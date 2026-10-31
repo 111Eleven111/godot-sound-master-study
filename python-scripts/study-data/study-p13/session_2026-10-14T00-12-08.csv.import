@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cep424k26lal8"
+
+[deps]
+
+files=["res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.event.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.x.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.y.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.velocity.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.velocity.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.action.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.info.translation"]
+
+source_file="res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.csv"
+dest_files=["res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.event.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.x.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.y.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.velocity.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.velocity.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.action.translation", "res://python-scripts/study-data/study-p13/session_2026-10-14T00-12-08.info.translation"]
+
+[params]
+
+compress=true
+delimiter=0
