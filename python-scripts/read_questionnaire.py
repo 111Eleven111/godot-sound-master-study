@@ -298,9 +298,9 @@ def plot_questionnaire_charts(
 
 
 def main() -> None:
-    # plot_questionnaire_charts()
+    plot_questionnaire_charts()
     # plot_questionnaire_charts_participant_type(participant_type="music enthusiast")
-    print(run_shapiro_wilk_tests())
+    # print(run_shapiro_wilk_tests())
 
 
 if __name__ == "__main__":

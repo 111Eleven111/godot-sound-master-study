@@ -1,6 +1,7 @@
 import os
 import re
 import matplotlib.pyplot as plt
+from telemetry_event_counter import count_top_reaches_by_scenario
 
 def read_folder(pfolder, sessions):
     filenames = sorted(
@@ -244,13 +245,16 @@ def main() -> None:
     'jump_input_pressed', 'session_start', 'event', 'time_limit_reached'}
     """
 
-    for event in get_event_legend(sessions):
-        plot_event_occurrences(sessions, event)
+    # for event in get_event_legend(sessions):
+    #     plot_event_occurrences(sessions, event)
 
     # for event in get_event_legend(sessions):
     #     plot_event_occurrences_counterbalance(sessions, event)
 
     # plot_event_occurrences(sessions, "sonification"
+
+    print("Top reached count by scenario")
+    print(count_top_reaches_by_scenario(sessions))
 
 if __name__ == "__main__":
     main()
