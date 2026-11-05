@@ -296,11 +296,21 @@ def plot_questionnaire_charts(
         "Questionnaire responses by scenario (0–4 scale)",
     )
 
+def regression():
+    """
+    Look at quetionere answers in:
+     /home/bagus/uioAndCode/master/godot-sound-master-study/python-scripts/study-data/data-with-order.txt
+       and store 
+    """
+    print(read_questionnaire(QUESTIONNAIRE_PATH))
+    
 
 def main() -> None:
-    plot_questionnaire_charts()
+    regression()
+    # plot_questionnaire_charts()
     # plot_questionnaire_charts_participant_type(participant_type="music enthusiast")
     # print(run_shapiro_wilk_tests())
+
 
 
 if __name__ == "__main__":
