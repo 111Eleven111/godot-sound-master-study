@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://754v56fpj63q"
+
+[deps]
+
+files=["res://python-scripts/backtracking-results.scenario.translation", "res://python-scripts/backtracking-results.play.translation", "res://python-scripts/backtracking-results.platform.translation", "res://python-scripts/backtracking-results.unique.translation", "res://python-scripts/backtracking-results.return.translation", "res://python-scripts/backtracking-results.revisited.translation", "res://python-scripts/backtracking-results.return.translation"]
+
+source_file="res://python-scripts/backtracking-results.csv"
+dest_files=["res://python-scripts/backtracking-results.scenario.translation", "res://python-scripts/backtracking-results.play.translation", "res://python-scripts/backtracking-results.platform.translation", "res://python-scripts/backtracking-results.unique.translation", "res://python-scripts/backtracking-results.return.translation", "res://python-scripts/backtracking-results.revisited.translation", "res://python-scripts/backtracking-results.return.translation"]
+
+[params]
+
+compress=true
+delimiter=0

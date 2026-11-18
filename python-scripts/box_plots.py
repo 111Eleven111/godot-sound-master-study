@@ -229,6 +229,7 @@ def get_event_legend(sessions: dict) -> set:
 
     # print(sessions['./study-data/study-p1/session_2026-09-29T11-54-49_B'][2].split(",")[1])
 
+
 def main() -> None:
     sessions = {}
     sessions = read_all(sessions)

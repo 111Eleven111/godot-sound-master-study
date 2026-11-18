@@ -1,0 +1,244 @@
+{
+  "definition": "A return is a platform_landed event whose platform ID was previously observed in the same session.",
+  "participants": 18,
+  "sessions": 72,
+  "group_counts": {
+    "experience_1_2": 6,
+    "experience_3_4": 12
+  },
+  "descriptive_means": {
+    "return_rate": {
+      "experience_1_2": 0.19567596738100335,
+      "experience_3_4": 0.24624346891008084
+    },
+    "revisited_rate": {
+      "experience_1_2": 0.19541481593237578,
+      "experience_3_4": 0.21022214964367272
+    },
+    "return_episode_rate": {
+      "experience_1_2": 0.10140248126767747,
+      "experience_3_4": 0.10910030109116335
+    }
+  },
+  "audio_condition_means": {
+    "return_rate": {
+      "low": 0.22003361951831116,
+      "high": 0.2387416506157988
+    },
+    "revisited_rate": {
+      "low": 0.20216677572999064,
+      "high": 0.2084059677498235
+    },
+    "return_episode_rate": {
+      "low": 0.10975242691118997,
+      "high": 0.1033162953888128
+    }
+  },
+  "bootstrap": {
+    "return_rate": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate_a_minus_b": -0.05056750152907752,
+      "lower_95": -0.11231009563503652,
+      "upper_95": 0.006830254617824773,
+      "participant_counts": {
+        "experience_1_2": 6,
+        "experience_3_4": 12
+      }
+    },
+    "revisited_rate": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate_a_minus_b": -0.014807333711296944,
+      "lower_95": -0.07188935545001301,
+      "upper_95": 0.039803088188131275,
+      "participant_counts": {
+        "experience_1_2": 6,
+        "experience_3_4": 12
+      }
+    },
+    "return_episode_rate": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate_a_minus_b": -0.007697819823485885,
+      "lower_95": -0.022935658588987978,
+      "upper_95": 0.008662813657025276,
+      "participant_counts": {
+        "experience_1_2": 6,
+        "experience_3_4": 12
+      }
+    }
+  },
+  "scenario_x_experience": {
+    "return_rate": {
+      "formula": "return_rate ~ C(scenario) + C(play_position) + C(group) + C(scenario):C(group)",
+      "LMM": {
+        "experience": {
+          "coefficient": 0.023860663337997683,
+          "p_value": 0.6956841894388686
+        },
+        "scenario_B_x_experience": {
+          "coefficient": -0.029795751620622868,
+          "p_value": 0.6990471840942113,
+          "holm_p_value": 1.0
+        },
+        "scenario_C_x_experience": {
+          "coefficient": 0.04500818610175533,
+          "p_value": 0.5467810460782367,
+          "holm_p_value": 1.0
+        },
+        "scenario_D_x_experience": {
+          "coefficient": 0.091614918283187,
+          "p_value": 0.23904914382355102,
+          "holm_p_value": 0.7171474314706531
+        }
+      },
+      "GEE": {
+        "experience": {
+          "coefficient": 0.023860663337997447,
+          "p_value": 0.5685927017011642
+        },
+        "scenario_B_x_experience": {
+          "coefficient": -0.029795751620622802,
+          "p_value": 0.5756864436271083,
+          "holm_p_value": 1.0
+        },
+        "scenario_C_x_experience": {
+          "coefficient": 0.04500818610175562,
+          "p_value": 0.5521019724124239,
+          "holm_p_value": 1.0
+        },
+        "scenario_D_x_experience": {
+          "coefficient": 0.09161491828318735,
+          "p_value": 0.03156744384792883,
+          "holm_p_value": 0.09470233154378649
+        }
+      }
+    },
+    "revisited_rate": {
+      "formula": "revisited_rate ~ C(scenario) + C(play_position) + C(group) + C(scenario):C(group)",
+      "LMM": {
+        "experience": {
+          "coefficient": -0.0034829837725715977,
+          "p_value": 0.9461601197516541
+        },
+        "scenario_B_x_experience": {
+          "coefficient": -0.034550503952157655,
+          "p_value": 0.575526088747621,
+          "holm_p_value": 1.0
+        },
+        "scenario_C_x_experience": {
+          "coefficient": 0.027487826927218056,
+          "p_value": 0.6457604280546798,
+          "holm_p_value": 1.0
+        },
+        "scenario_D_x_experience": {
+          "coefficient": 0.0802239469604124,
+          "p_value": 0.19785025755480867,
+          "holm_p_value": 0.593550772664426
+        }
+      },
+      "GEE": {
+        "experience": {
+          "coefficient": -0.0034829837725712854,
+          "p_value": 0.9371891050870228
+        },
+        "scenario_B_x_experience": {
+          "coefficient": -0.0345505039521576,
+          "p_value": 0.41580689312342267,
+          "holm_p_value": 0.8316137862468453
+        },
+        "scenario_C_x_experience": {
+          "coefficient": 0.027487826927218094,
+          "p_value": 0.6507774755164104,
+          "holm_p_value": 0.8316137862468453
+        },
+        "scenario_D_x_experience": {
+          "coefficient": 0.08022394696041238,
+          "p_value": 0.10460455402347198,
+          "holm_p_value": 0.31381366207041594
+        }
+      }
+    },
+    "return_episode_rate": {
+      "formula": "return_episode_rate ~ C(scenario) + C(play_position) + C(group) + C(scenario):C(group)",
+      "LMM": {
+        "experience": {
+          "coefficient": -0.009393806754748138,
+          "p_value": 0.5582131280945605
+        },
+        "scenario_B_x_experience": {
+          "coefficient": 0.0047294387269211525,
+          "p_value": 0.8240372955203946,
+          "holm_p_value": 0.8865266614608431
+        },
+        "scenario_C_x_experience": {
+          "coefficient": 0.015804063648029373,
+          "p_value": 0.44326333073042157,
+          "holm_p_value": 0.8865266614608431
+        },
+        "scenario_D_x_experience": {
+          "coefficient": 0.04783300393798597,
+          "p_value": 0.0259213832073766,
+          "holm_p_value": 0.0777641496221298
+        }
+      },
+      "GEE": {
+        "experience": {
+          "coefficient": -0.009393806754748176,
+          "p_value": 0.593548875466761
+        },
+        "scenario_B_x_experience": {
+          "coefficient": 0.004729438726921001,
+          "p_value": 0.776391693147477,
+          "holm_p_value": 1.0
+        },
+        "scenario_C_x_experience": {
+          "coefficient": 0.015804063648029328,
+          "p_value": 0.5059394287448034,
+          "holm_p_value": 1.0
+        },
+        "scenario_D_x_experience": {
+          "coefficient": 0.047833003937985924,
+          "p_value": 0.035375903876091686,
+          "holm_p_value": 0.10612771162827506
+        }
+      }
+    }
+  },
+  "audio_condition_x_experience": {
+    "return_rate": {
+      "formula": "return_rate ~ C(audio_condition) + C(play_position) + C(group) + C(audio_condition):C(group)",
+      "LMM": {
+        "coefficient": -0.08059242386543855,
+        "p_value": 0.1416227917905977
+      },
+      "GEE": {
+        "coefficient": -0.08059242386543895,
+        "p_value": 0.15026154250088836
+      }
+    },
+    "revisited_rate": {
+      "formula": "revisited_rate ~ C(audio_condition) + C(play_position) + C(group) + C(audio_condition):C(group)",
+      "LMM": {
+        "coefficient": -0.06963869192354519,
+        "p_value": 0.10852628364658617
+      },
+      "GEE": {
+        "coefficient": -0.06963869192354528,
+        "p_value": 0.15840039007397866
+      }
+    },
+    "return_episode_rate": {
+      "formula": "return_episode_rate ~ C(audio_condition) + C(play_position) + C(group) + C(audio_condition):C(group)",
+      "LMM": {
+        "coefficient": -0.027046699022354077,
+        "p_value": 0.08216540777473419
+      },
+      "GEE": {
+        "coefficient": -0.027046699022354282,
+        "p_value": 0.1988101314800822
+      }
+    }
+  }
+}

@@ -1,0 +1,552 @@
+{
+  "input": "/Users/bagusandreaarvak/uioAndCode/master/repos/master-repo/godot-sound-master-study/python-scripts/study-data/data-with-order.txt",
+  "group_kind": "experience",
+  "feasibility": {
+    "filtered_participants": 18,
+    "participants_with_valid_responses": 18,
+    "observations": 568,
+    "groups": {
+      "experience_3_4": 12,
+      "experience_1_2": 6
+    },
+    "questions": 8,
+    "participants_with_all_scenarios": 18,
+    "recommendation": "Use participant-clustered bootstrap as the baseline. LME/GEE are reasonable exploratory sensitivity analyses; interpret p-values cautiously because the sample is small and ratings are ordinal."
+  },
+  "bootstrap": {
+    "How engaging did you find the sound effects/music?": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.4166666666666665,
+      "lower_95": -1.0416666666666667,
+      "upper_95": 0.1875,
+      "n": 18
+    },
+    "How engaging did you find the gameplay/platforming?": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.25694444444444464,
+      "lower_95": -0.8402777777777781,
+      "upper_95": 0.3333333333333335,
+      "n": 18
+    },
+    "I was immersed in the game.": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.3333333333333335,
+      "lower_95": -0.854166666666667,
+      "upper_95": 0.16666666666666696,
+      "n": 18
+    },
+    "I wanted to explore how the audio changed as I played.": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.9375,
+      "lower_95": -1.6458333333333335,
+      "upper_95": -0.20833333333333348,
+      "n": 18
+    },
+    "I felt motivated to explore the paths and areas of the game world.": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.7569444444444446,
+      "lower_95": -1.3541666666666667,
+      "upper_95": -0.13888888888888928,
+      "n": 18
+    },
+    "The audio made me adapt how I moved through the level.": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.8541666666666665,
+      "lower_95": -1.7083333333333335,
+      "upper_95": -0.020833333333333037,
+      "n": 18
+    },
+    "I enjoyed playing this scenario.": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.6041666666666665,
+      "lower_95": -1.1875,
+      "upper_95": 0.02083333333333348,
+      "n": 18
+    },
+    "I was distracted by the audio.": {
+      "group_a": "experience_1_2",
+      "group_b": "experience_3_4",
+      "estimate": -0.643939393939394,
+      "lower_95": -1.337121212121212,
+      "upper_95": 0.04924242424242409,
+      "n": 17
+    }
+  },
+  "models": {
+    "status": "run",
+    "formula": "rating ~ C(scenario) + C(play_position) + C(group) + C(scenario):C(group) + C(question):C(group) + C(play_position):C(group)",
+    "interpretation": {
+      "scenario_group": "Tests whether experience groups respond differently to specific scenarios.",
+      "question_group": "Tests whether experience differences are concentrated in specific questionnaire items.",
+      "play_position_group": "Tests whether changes across play position differ by experience group."
+    },
+    "linear_mixed_effects": {
+      "converged": true,
+      "coefficients": {
+        "Intercept": 2.4436141304347716,
+        "C(scenario)[T.B]": 1.1134510869565206,
+        "C(scenario)[T.C]": 0.7707201086956513,
+        "C(scenario)[T.D]": 0.8885869565217387,
+        "C(play_position)[T.2]": -0.3063858695652151,
+        "C(play_position)[T.3]": -0.2635869565217377,
+        "C(play_position)[T.4]": -0.47724184782608503,
+        "C(group)[T.experience_3_4]": -0.07038506601010512,
+        "C(scenario)[T.B]:C(group)[T.experience_3_4]": -0.3256760734043706,
+        "C(scenario)[T.C]:C(group)[T.experience_3_4]": 0.12561404662958725,
+        "C(scenario)[T.D]:C(group)[T.experience_3_4]": 0.14762060684485054,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_1_2]": -0.374999999999998,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_1_2]": -0.12499999999999788,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]": -0.374999999999998,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]": -0.624999999999998,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_1_2]": -1.791666666666665,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_1_2]": 0.041666666666668684,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]": -0.8749999999999979,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_3_4]": -0.2256856289018517,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_3_4]": 0.21181437109814844,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_3_4]": 0.12765957446808746,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_3_4]": 0.04514770443148169,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_3_4]": -1.4486369267127845,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_3_4]": 0.10638297872340674,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_3_4]": -0.2881856289018518,
+        "C(play_position)[T.2]:C(group)[T.experience_3_4]": 0.3844452098956058,
+        "C(play_position)[T.3]:C(group)[T.experience_3_4]": 0.27437020771883475,
+        "C(play_position)[T.4]:C(group)[T.experience_3_4]": 0.7445754486300081,
+        "Group Var": 0.24769183327737543
+      },
+      "p_values": {
+        "Intercept": 2.6442285988721596e-14,
+        "C(scenario)[T.B]": 3.2968510752488e-05,
+        "C(scenario)[T.C]": 0.002988362440958762,
+        "C(scenario)[T.D]": 0.00010856619220025204,
+        "C(play_position)[T.2]": 0.08868371622956954,
+        "C(play_position)[T.3]": 0.2509022255261302,
+        "C(play_position)[T.4]": 0.005910379310544583,
+        "C(group)[T.experience_3_4]": 0.8522528041824416,
+        "C(scenario)[T.B]:C(group)[T.experience_3_4]": 0.26887046387492053,
+        "C(scenario)[T.C]:C(group)[T.experience_3_4]": 0.6608441496949854,
+        "C(scenario)[T.D]:C(group)[T.experience_3_4]": 0.573069636855913,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_1_2]": 0.11342804748099677,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_1_2]": 0.5977373959840794,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]": 0.11342804748099677,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]": 0.008332647121896864,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_1_2]": 3.936225255014637e-14,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_1_2]": 0.8603837558437408,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]": 0.00022110213442435667,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_3_4]": 0.18030428870651238,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_3_4]": 0.2085835736154077,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_3_4]": 0.4507792906902841,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_3_4]": 0.7886788857337421,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_3_4]": 7.309866543417773e-17,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_3_4]": 0.5297220349657185,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_3_4]": 0.0871069726786034,
+        "C(play_position)[T.2]:C(group)[T.experience_3_4]": 0.08116563780804695,
+        "C(play_position)[T.3]:C(group)[T.experience_3_4]": 0.30145399392216354,
+        "C(play_position)[T.4]:C(group)[T.experience_3_4]": 0.0004852099678478546,
+        "Group Var": 0.008828791175188911
+      },
+      "interaction_terms": {
+        "C(scenario)[T.B]:C(group)[T.experience_3_4]": {
+          "coefficient": -0.3256760734043706,
+          "p_value": 0.26887046387492053
+        },
+        "C(scenario)[T.C]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.12561404662958725,
+          "p_value": 0.6608441496949854
+        },
+        "C(scenario)[T.D]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.14762060684485054,
+          "p_value": 0.573069636855913
+        },
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_1_2]": {
+          "coefficient": -0.374999999999998,
+          "p_value": 0.11342804748099677
+        },
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_1_2]": {
+          "coefficient": -0.12499999999999788,
+          "p_value": 0.5977373959840794
+        },
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]": {
+          "coefficient": -0.374999999999998,
+          "p_value": 0.11342804748099677
+        },
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]": {
+          "coefficient": -0.624999999999998,
+          "p_value": 0.008332647121896864
+        },
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_1_2]": {
+          "coefficient": -1.791666666666665,
+          "p_value": 3.936225255014637e-14
+        },
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_1_2]": {
+          "coefficient": 0.041666666666668684,
+          "p_value": 0.8603837558437408
+        },
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]": {
+          "coefficient": -0.8749999999999979,
+          "p_value": 0.00022110213442435667
+        },
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_3_4]": {
+          "coefficient": -0.2256856289018517,
+          "p_value": 0.18030428870651238
+        },
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_3_4]": {
+          "coefficient": 0.21181437109814844,
+          "p_value": 0.2085835736154077
+        },
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_3_4]": {
+          "coefficient": 0.12765957446808746,
+          "p_value": 0.4507792906902841
+        },
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_3_4]": {
+          "coefficient": 0.04514770443148169,
+          "p_value": 0.7886788857337421
+        },
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_3_4]": {
+          "coefficient": -1.4486369267127845,
+          "p_value": 7.309866543417773e-17
+        },
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_3_4]": {
+          "coefficient": 0.10638297872340674,
+          "p_value": 0.5297220349657185
+        },
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_3_4]": {
+          "coefficient": -0.2881856289018518,
+          "p_value": 0.0871069726786034
+        },
+        "C(play_position)[T.2]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.3844452098956058,
+          "p_value": 0.08116563780804695
+        },
+        "C(play_position)[T.3]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.27437020771883475,
+          "p_value": 0.30145399392216354
+        },
+        "C(play_position)[T.4]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.7445754486300081,
+          "p_value": 0.0004852099678478546
+        }
+      }
+    },
+    "gee": {
+      "coefficients": {
+        "Intercept": 2.443614130434782,
+        "C(scenario)[T.B]": 1.1134510869565217,
+        "C(scenario)[T.C]": 0.7707201086956521,
+        "C(scenario)[T.D]": 0.888586956521739,
+        "C(play_position)[T.2]": -0.3063858695652175,
+        "C(play_position)[T.3]": -0.2635869565217393,
+        "C(play_position)[T.4]": -0.47724184782608703,
+        "C(group)[T.experience_3_4]": -0.07040971856150983,
+        "C(scenario)[T.B]:C(group)[T.experience_3_4]": -0.3256759407815526,
+        "C(scenario)[T.C]:C(group)[T.experience_3_4]": 0.12561965637692254,
+        "C(scenario)[T.D]:C(group)[T.experience_3_4]": 0.14752056635067812,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_1_2]": -0.37499999999999994,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_1_2]": -0.12500000000000003,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]": -0.375,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]": -0.6250000000000001,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_1_2]": -1.7916666666666667,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_1_2]": 0.04166666666666641,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]": -0.8749999999999999,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_3_4]": -0.22563940600758423,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_3_4]": 0.2118605939924158,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_3_4]": 0.12765957446808515,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_3_4]": 0.045193927325749034,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_3_4]": -1.4485223301370511,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_3_4]": 0.10638297872340441,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_3_4]": -0.28813940600758436,
+        "C(play_position)[T.2]:C(group)[T.experience_3_4]": 0.38438568534300427,
+        "C(play_position)[T.3]:C(group)[T.experience_3_4]": 0.27442174257130986,
+        "C(play_position)[T.4]:C(group)[T.experience_3_4]": 0.7445914550826844
+      },
+      "p_values": {
+        "Intercept": 2.107080214438765e-18,
+        "C(scenario)[T.B]": 1.6176810903085869e-15,
+        "C(scenario)[T.C]": 0.00013744641106100525,
+        "C(scenario)[T.D]": 6.121739762619175e-16,
+        "C(play_position)[T.2]": 0.11168277057032196,
+        "C(play_position)[T.3]": 0.01644631134085186,
+        "C(play_position)[T.4]": 1.6695054105762536e-05,
+        "C(group)[T.experience_3_4]": 0.8520612314738302,
+        "C(scenario)[T.B]:C(group)[T.experience_3_4]": 0.1754107483596049,
+        "C(scenario)[T.C]:C(group)[T.experience_3_4]": 0.6684412586270834,
+        "C(scenario)[T.D]:C(group)[T.experience_3_4]": 0.4545350550259797,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_1_2]": 0.11995484202915983,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_1_2]": 0.10880943004054569,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]": 0.00012423612343121887,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]": 0.0006817102933708318,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_1_2]": 1.3452627335294038e-10,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_1_2]": 0.5524529048817798,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]": 0.0004241840078457974,
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_3_4]": 0.10177849709887891,
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_3_4]": 0.14079582901538518,
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_3_4]": 0.16740327439058,
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_3_4]": 0.7719902982829366,
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_3_4]": 5.355118596804552e-07,
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_3_4]": 0.22883197943395406,
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_3_4]": 0.08986341623066446,
+        "C(play_position)[T.2]:C(group)[T.experience_3_4]": 0.10547667368387606,
+        "C(play_position)[T.3]:C(group)[T.experience_3_4]": 0.1634391023410261,
+        "C(play_position)[T.4]:C(group)[T.experience_3_4]": 0.00030795311075910276
+      },
+      "interaction_terms": {
+        "C(scenario)[T.B]:C(group)[T.experience_3_4]": {
+          "coefficient": -0.3256759407815526,
+          "p_value": 0.1754107483596049
+        },
+        "C(scenario)[T.C]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.12561965637692254,
+          "p_value": 0.6684412586270834
+        },
+        "C(scenario)[T.D]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.14752056635067812,
+          "p_value": 0.4545350550259797
+        },
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_1_2]": {
+          "coefficient": -0.37499999999999994,
+          "p_value": 0.11995484202915983
+        },
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_1_2]": {
+          "coefficient": -0.12500000000000003,
+          "p_value": 0.10880943004054569
+        },
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]": {
+          "coefficient": -0.375,
+          "p_value": 0.00012423612343121887
+        },
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]": {
+          "coefficient": -0.6250000000000001,
+          "p_value": 0.0006817102933708318
+        },
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_1_2]": {
+          "coefficient": -1.7916666666666667,
+          "p_value": 1.3452627335294038e-10
+        },
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_1_2]": {
+          "coefficient": 0.04166666666666641,
+          "p_value": 0.5524529048817798
+        },
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]": {
+          "coefficient": -0.8749999999999999,
+          "p_value": 0.0004241840078457974
+        },
+        "C(question)[T.How engaging did you find the sound effects/music?]:C(group)[experience_3_4]": {
+          "coefficient": -0.22563940600758423,
+          "p_value": 0.10177849709887891
+        },
+        "C(question)[T.I enjoyed playing this scenario.]:C(group)[experience_3_4]": {
+          "coefficient": 0.2118605939924158,
+          "p_value": 0.14079582901538518
+        },
+        "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_3_4]": {
+          "coefficient": 0.12765957446808515,
+          "p_value": 0.16740327439058
+        },
+        "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_3_4]": {
+          "coefficient": 0.045193927325749034,
+          "p_value": 0.7719902982829366
+        },
+        "C(question)[T.I was distracted by the audio.]:C(group)[experience_3_4]": {
+          "coefficient": -1.4485223301370511,
+          "p_value": 5.355118596804552e-07
+        },
+        "C(question)[T.I was immersed in the game.]:C(group)[experience_3_4]": {
+          "coefficient": 0.10638297872340441,
+          "p_value": 0.22883197943395406
+        },
+        "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_3_4]": {
+          "coefficient": -0.28813940600758436,
+          "p_value": 0.08986341623066446
+        },
+        "C(play_position)[T.2]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.38438568534300427,
+          "p_value": 0.10547667368387606
+        },
+        "C(play_position)[T.3]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.27442174257130986,
+          "p_value": 0.1634391023410261
+        },
+        "C(play_position)[T.4]:C(group)[T.experience_3_4]": {
+          "coefficient": 0.7445914550826844,
+          "p_value": 0.00030795311075910276
+        }
+      }
+    }
+  },
+  "p_value_tables": {
+    "scenario_x_experience_p_values": [
+      {
+        "family": "scenario_x_experience",
+        "model": "LMM",
+        "term": "Scenario B \u00d7 experience",
+        "coefficient": -0.3256760734043706,
+        "p_value_unadjusted": 0.26887046387492053,
+        "p_value_holm": 0.8066113916247616,
+        "source_term": "C(scenario)[T.B]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "scenario_x_experience",
+        "model": "LMM",
+        "term": "Scenario C \u00d7 experience",
+        "coefficient": 0.12561404662958725,
+        "p_value_unadjusted": 0.6608441496949854,
+        "p_value_holm": 1.0,
+        "source_term": "C(scenario)[T.C]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "scenario_x_experience",
+        "model": "LMM",
+        "term": "Scenario D \u00d7 experience",
+        "coefficient": 0.14762060684485054,
+        "p_value_unadjusted": 0.573069636855913,
+        "p_value_holm": 1.0,
+        "source_term": "C(scenario)[T.D]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "scenario_x_experience",
+        "model": "GEE",
+        "term": "Scenario B \u00d7 experience",
+        "coefficient": -0.3256759407815526,
+        "p_value_unadjusted": 0.1754107483596049,
+        "p_value_holm": 0.5262322450788147,
+        "source_term": "C(scenario)[T.B]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "scenario_x_experience",
+        "model": "GEE",
+        "term": "Scenario C \u00d7 experience",
+        "coefficient": 0.12561965637692254,
+        "p_value_unadjusted": 0.6684412586270834,
+        "p_value_holm": 0.9090701100519594,
+        "source_term": "C(scenario)[T.C]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "scenario_x_experience",
+        "model": "GEE",
+        "term": "Scenario D \u00d7 experience",
+        "coefficient": 0.14752056635067812,
+        "p_value_unadjusted": 0.4545350550259797,
+        "p_value_holm": 0.9090701100519594,
+        "source_term": "C(scenario)[T.D]:C(group)[T.experience_3_4]"
+      }
+    ],
+    "agency_question_x_experience_p_values": [
+      {
+        "family": "agency_question_x_experience",
+        "model": "LMM",
+        "term": "Audio exploration \u00d7 experience",
+        "coefficient": -0.624999999999998,
+        "p_value_unadjusted": 0.008332647121896864,
+        "p_value_holm": 0.01666529424379373,
+        "source_term": "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]"
+      },
+      {
+        "family": "agency_question_x_experience",
+        "model": "LMM",
+        "term": "World exploration \u00d7 experience",
+        "coefficient": -0.374999999999998,
+        "p_value_unadjusted": 0.11342804748099677,
+        "p_value_holm": 0.11342804748099677,
+        "source_term": "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]"
+      },
+      {
+        "family": "agency_question_x_experience",
+        "model": "LMM",
+        "term": "Movement adaptation \u00d7 experience",
+        "coefficient": -0.8749999999999979,
+        "p_value_unadjusted": 0.00022110213442435667,
+        "p_value_holm": 0.00066330640327307,
+        "source_term": "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]"
+      },
+      {
+        "family": "agency_question_x_experience",
+        "model": "GEE",
+        "term": "Audio exploration \u00d7 experience",
+        "coefficient": -0.6250000000000001,
+        "p_value_unadjusted": 0.0006817102933708318,
+        "p_value_holm": 0.0008483680156915948,
+        "source_term": "C(question)[T.I wanted to explore how the audio changed as I played.]:C(group)[experience_1_2]"
+      },
+      {
+        "family": "agency_question_x_experience",
+        "model": "GEE",
+        "term": "World exploration \u00d7 experience",
+        "coefficient": -0.375,
+        "p_value_unadjusted": 0.00012423612343121887,
+        "p_value_holm": 0.0003727083702936566,
+        "source_term": "C(question)[T.I felt motivated to explore the paths and areas of the game world.]:C(group)[experience_1_2]"
+      },
+      {
+        "family": "agency_question_x_experience",
+        "model": "GEE",
+        "term": "Movement adaptation \u00d7 experience",
+        "coefficient": -0.8749999999999999,
+        "p_value_unadjusted": 0.0004241840078457974,
+        "p_value_holm": 0.0008483680156915948,
+        "source_term": "C(question)[T.The audio made me adapt how I moved through the level.]:C(group)[experience_1_2]"
+      }
+    ],
+    "play_position_x_experience_p_values": [
+      {
+        "family": "play_position_x_experience",
+        "model": "LMM",
+        "term": "Play position 2 \u00d7 experience",
+        "coefficient": 0.3844452098956058,
+        "p_value_unadjusted": 0.08116563780804695,
+        "p_value_holm": 0.1623312756160939,
+        "source_term": "C(play_position)[T.2]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "play_position_x_experience",
+        "model": "LMM",
+        "term": "Play position 3 \u00d7 experience",
+        "coefficient": 0.27437020771883475,
+        "p_value_unadjusted": 0.30145399392216354,
+        "p_value_holm": 0.30145399392216354,
+        "source_term": "C(play_position)[T.3]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "play_position_x_experience",
+        "model": "LMM",
+        "term": "Play position 4 \u00d7 experience",
+        "coefficient": 0.7445754486300081,
+        "p_value_unadjusted": 0.0004852099678478546,
+        "p_value_holm": 0.0014556299035435637,
+        "source_term": "C(play_position)[T.4]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "play_position_x_experience",
+        "model": "GEE",
+        "term": "Play position 2 \u00d7 experience",
+        "coefficient": 0.38438568534300427,
+        "p_value_unadjusted": 0.10547667368387606,
+        "p_value_holm": 0.21095334736775212,
+        "source_term": "C(play_position)[T.2]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "play_position_x_experience",
+        "model": "GEE",
+        "term": "Play position 3 \u00d7 experience",
+        "coefficient": 0.27442174257130986,
+        "p_value_unadjusted": 0.1634391023410261,
+        "p_value_holm": 0.21095334736775212,
+        "source_term": "C(play_position)[T.3]:C(group)[T.experience_3_4]"
+      },
+      {
+        "family": "play_position_x_experience",
+        "model": "GEE",
+        "term": "Play position 4 \u00d7 experience",
+        "coefficient": 0.7445914550826844,
+        "p_value_unadjusted": 0.00030795311075910276,
+        "p_value_holm": 0.0009238593322773083,
+        "source_term": "C(play_position)[T.4]:C(group)[T.experience_3_4]"
+      }
+    ]
+  }
+}
